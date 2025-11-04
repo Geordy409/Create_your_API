@@ -1,7 +1,7 @@
 import Fastify from "fastify";
 
-const app = Fastify();
-const PORT = 3002;
+const app = Fastify(); // crée une instance de l'application web
+const PORT = 3002; // définit le port où le serveur va écouter
 
 try {
   await app.listen({ port: PORT });
