@@ -1,24 +1,20 @@
 import Fastify from "fastify";
-import fastifyFormbody from "@fastify/formbody";
+import formbody from "@fastify/formbody";
+import routes from "./router/index.js"; // ✅ bon chemin
 
-const app = Fastify();
-const PORT = 3002;
-await app.register(fastifyFormbody); // ← Correction ici
+const app = Fastify({ logger: true });
 
-app.get("/", async (request, reply) => {
-  reply.send({ message: "ok" });
-});
+const start = async () => {
+  try {
+    await app.register(formbody);
+    await app.register(routes);
 
-app.setNotFoundHandler((request, reply) => {
-  const { message, statusCode } = request.error || {};
-  reply.status(statusCode || 500).send({ message });
-});
+    await app.listen({ port: 3002 });
+    console.log("🚀 Serveur démarré sur http://localhost:3002");
+  } catch (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
+};
 
-try {
-  await app.listen({ port: PORT });
-  console.log(`Listening at http://localhost:${PORT}`);
-} catch (err) {
-  console.log("There are error");
-  console.error(err);
-  process.exit(1);
-}
+start();
