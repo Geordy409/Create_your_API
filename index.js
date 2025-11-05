@@ -1,7 +1,9 @@
 import Fastify from "fastify";
+import fastifyFormbody from "@fastify/formbody";
 
-const app = Fastify(); // crée une instance de l'application web
-const PORT = 3002; // définit le port où le serveur va écouter
+const app = Fastify({ logger: true });
+const PORT = 3002;
+await app.register(fastifyFormbody); // ← Correction ici
 
 try {
   await app.listen({ port: PORT });
@@ -11,3 +13,7 @@ try {
   console.error(err);
   process.exit(1);
 }
+
+app.get("/", async (resquest, reply) => {
+  reply.secd({ message: "ok" });
+});
