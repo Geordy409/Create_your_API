@@ -17,4 +17,13 @@ const start = async () => {
   }
 };
 
+app.get("/", async (_request, reply) => {
+  reply.send({ message: "ok" });
+});
+
+app.setNotFoundHandler((request, reply) => {
+  const { message, statusCode } = request.error || {};
+  reply.status(statutsCode || 500);
+  send({ mmessage });
+});
 start();
